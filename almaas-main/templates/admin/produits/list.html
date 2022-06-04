@@ -1,0 +1,101 @@
+{% extends 'admin_base.html' %}
+{% load crispy_forms_tags %}
+{% block addCss %}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.0/css/dataTables.bootstrap5.min.css">
+{% endblock %}
+{% block admin_content %}
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-header">
+                <span>
+                    Liste des produits
+                </span>
+                <a href="{% url 'store:dashboard-produit-creation' %}" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#add" style="background-color: #dcb14a; border-color: #dcb14a">Nouveau produit</a>
+            </div>
+            <div class="card-body pt-2">
+                <div class="table-responsive">
+                    <table class="table text-center table-borderless table-hover table-striped table-condensed" id="datatb">
+                        <thead >
+                            <tr >
+                                <th class="text-center">ID</th>
+                                <th class="text-center">Nom</th>
+                                <th class="text-center">Description</th>
+                                <th class="text-center">Image</th>
+                                <th class="text-center">Prix</th>
+                                <th class="text-center"> Catégorie</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for produit in produits %}
+                                <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ produit.title }}</td>
+                                <td>{{ produit.short_description | truncatewords:12 }}</td>
+                                <td><a href="{{ produit.image_url | default_if_none:"" }}">voir image</a></td>
+                                <td>{{ produit.price }}</td>
+                                <td>{{ produit.category }}</td>
+                                <td>
+                                    <a href="{% url 'store:dashboard-produit-modification' produit.pk %}" class="btn btn-sm btn-warning">Modifier</a>
+                                    <button data-bs-toggle="modal" data-bs-target="#delete{{ produit.pk }}" class="btn btn-sm btn-danger" >Supprimer</button>
+                                </td>
+                            </tr>
+                                <div class="modal" tabindex="-1" id="delete{{ produit.pk }}">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                          <div class="modal-header">
+                                            <h5 class="modal-title">Confirmation</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                          </div>
+                                          <div class="modal-body">
+                                             <h4>Voulez vous vraiment supprimer ce produit ?</h4>
+                                          </div>
+                                        <div class="modal-footer">
+                                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Non, annuler</button>
+                                                    <a href="{% url 'store:dashboard-produit-suppression' produit.pk %}" class="btn btn-primary" style="background-color: #dcb14a; border-color: #dcb14a">Oui, supprimer</a>
+                                                  </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" tabindex="-1" id="add">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Ajouter une nouvelle catégorie</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <form action="{% url 'store:dashboard-categorie-creation' %}" method="post" >
+              {% csrf_token %}
+            {{ form | crispy }}
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">fermer</button>
+                <button type="submit" class="btn btn-primary" style="background-color: #dcb14a; border-color: #dcb14a">Enregistrer</button>
+              </div>
+          </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block addJS %}
+    <script src="https://unpkg.com/htmx.org@1.7.0" integrity="sha384-EzBXYPt0/T6gxNp0nuPtLkmRpmDBbjg6WmCUZRLXBBwYYmwAUxzlSGej0ARHX0Bo" crossorigin="anonymous" defer></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.12.0/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.0/js/dataTables.bootstrap5.min.js"></script>
+    <script>
+    $(document).ready(function () {
+        $('#datatb').DataTable();
+    });
+    </script>
+{% endblock %}

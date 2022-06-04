@@ -1,0 +1,60 @@
+{% extends 'admin_base.html' %}
+{% load crispy_forms_tags %}
+{% block addCss %}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.0/css/dataTables.bootstrap5.min.css">
+{% endblock %}
+{% block admin_content %}
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-header">
+                <span>
+                    Liste des commandes
+                </span>
+            </div>
+            <div class="card-body pt-2">
+                <div class="table-responsive">
+                    <table class="table text-center table-borderless table-hover table-striped table-condensed" id="datatb">
+                        <thead >
+                            <tr >
+                                <th class="text-center">ID</th>
+                                <th class="text-center">Acheteur</th>
+                                <th class="text-center">Adresse</th>
+                                <th class="text-center">Produit</th>
+                                <th class="text-center">Quantité</th>
+                                <th class="text-center">Date</th>
+                                <th class="text-center">Statut</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in orders %}
+                                <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ order.user }}</td>
+                                <td>{{ order.address }}</td>
+                                <td>{{ order.product }}</td>
+                                <td>{{ order.quantity }}</td>
+                                <td>{{ order.ordered_date }}</td>
+                                <td>{{ order.status }}</td>
+                            </tr>
+
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block addJS %}
+    <script src="https://unpkg.com/htmx.org@1.7.0" integrity="sha384-EzBXYPt0/T6gxNp0nuPtLkmRpmDBbjg6WmCUZRLXBBwYYmwAUxzlSGej0ARHX0Bo" crossorigin="anonymous" defer></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.12.0/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.0/js/dataTables.bootstrap5.min.js"></script>
+    <script>
+    $(document).ready(function () {
+        $('#datatb').DataTable();
+    });
+    </script>
+{% endblock %}

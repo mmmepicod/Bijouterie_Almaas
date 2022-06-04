@@ -1,0 +1,23 @@
+{% extends 'admin_base.html' %}
+{% load crispy_forms_tags %}
+{% block admin_content %}
+    <div class="row justify-content-center">
+    <div class="col-md-8 col-ld-4 col-10">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="text-center">Modifier {{ produit }}</h4>
+            </div>
+            <div class="card-body">
+                <form action="{% url 'store:dashboard-produit-modification' produit.id %}" method="post">
+                    {% csrf_token %}
+                    {{ form | crispy }}
+                <div class="card-footer">
+                <button type="submit" class="btn btn-primary float-end" style="background-color: #dcb14a; border-color: #dcb14a">Enregistrer</button>
+            </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+    </div>
+{% endblock %}
