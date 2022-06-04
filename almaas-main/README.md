@@ -72,6 +72,6 @@ $  python manage.py runserver
 
 ## Page de production:
 
-[ https://www.bijouterie-almaas.herokuapp.com ]
+[ https://bijouterie-almaas.herokuapp.com ]
 
 
