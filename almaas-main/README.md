@@ -10,13 +10,14 @@ Sami Zammit et Mehdi Mansour.
 
 ## Objet
 
-Première livraison, en mode agile, pour le PTUT.
+Livraison finale, en mode agile, pour le PTUT.
 
 
 ## Fonctionnalités
  
 
-Parcourir catalogue, se créer un compte, administrer . Testées et validées.
+Parcourir catalogue, barre de recherche, se créer un compte utilisateur,
+administrateur,Crud administrateur, module paypal.. Testées et validées.
 
 
 
@@ -68,5 +69,9 @@ $  pip install -r requirements.txt
 ```python
 $  python manage.py runserver
 ```
+
+## Page de production:
+
+[ https://www.bijouterie-almaas.herokuapp.com ]
 
 
